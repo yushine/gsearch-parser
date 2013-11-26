@@ -1,5 +1,6 @@
 require 'open-uri'
 require 'nokogiri'
+require 'uri'
 
 #
 # Module method definitions
@@ -34,7 +35,7 @@ class GoogleWebSearch
     when 'QUERY'
       # Format query
       query = arg1.gsub(/ /, '+')
-      updateResults("http://google.com/search?q=#{query}")
+      updateResults("http://google.com/search?#{URI.encode_www_form(q: query)}")
     when 'URI'
       updateResults(arg1)
     end
