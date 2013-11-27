@@ -67,7 +67,7 @@ class GoogleWebSearch
 
   # Fetch the page from a URL
   def fetchPage(url)
-    Nokogiri::HTML(open(url, 'User-Agent' => 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/535.19 (KHTML, like Gecko) Chrome/18.0.1025.152 Safari/535.19'))
+    Nokogiri::HTML(open(url, 'User-Agent' => 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/535.19 (KHTML, like Gecko) Chrome/18.0.1025.152 Safari/535.19').read, nil, 'utf-8')
   end
 
   # Parse the current page and populate results
