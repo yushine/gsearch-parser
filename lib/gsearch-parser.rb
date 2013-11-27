@@ -85,7 +85,6 @@ class GoogleWebSearch
       # Extract the content. There is the possibility for
       # the content to be nil, so check for this
       content = result.css('span.st').first.nil? ? '' : result.css('span.st').first.inner_html
-      content = URI.decode content
 
       # Extract the URI
       uri = result.css('cite').first.inner_html
