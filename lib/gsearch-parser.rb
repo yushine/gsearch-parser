@@ -80,7 +80,6 @@ class GoogleWebSearch
       begin
       # Extract the title
       title = result.css('h3 a').first.inner_html
-      title = URI.decode title
 
       # Extract the content. There is the possibility for
       # the content to be nil, so check for this
