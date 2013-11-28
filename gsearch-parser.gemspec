@@ -31,6 +31,5 @@ Gem::Specification.new do |s|
   s.summary = "Google search result parser."
 
   s.add_dependency 'nokogiri', ["~> 1.6.0"]
-  s.add_dependency 'sanitize', ['~> 2.0.0']
 end
 
