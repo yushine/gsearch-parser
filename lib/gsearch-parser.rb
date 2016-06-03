@@ -9,12 +9,12 @@ module GSearchParser
 
   # Entry method for performing a web search
   def GSearchParser.webSearch(query)
-    webSearch = GoogleWebSearch.new(query, 'QUERY')
+    GoogleWebSearch.new(query, 'QUERY')
   end
 
   # Allows directly specifing the URI of the page to parse
   def GSearchParser.parseSearchPage(uri)
-    webSearch = GoogleWebSearch.new(uri, 'URI')
+    GoogleWebSearch.new(uri, 'URI')
   end
 
 end
@@ -32,25 +32,25 @@ class GoogleWebSearch
     @results = Array.new
 
     case flag
-    when 'QUERY'
-      # Format query
-      query = arg1.gsub(/ /, '+')
-      updateResults("http://google.com/search?#{URI.encode_www_form(q: query)}")
-    when 'URI'
-      updateResults(arg1)
+      when 'QUERY'
+        # Format query
+        query = arg1.gsub(/ /, '+')
+        updateResults("https://google.com/search?#{URI.encode_www_form(q: query)}")
+      when 'URI'
+        updateResults(arg1)
     end
 
     # Update next URI
-    updateNextURI   
+    updateNextURI
   end
 
   # Update the nextURI attribute
   def updateNextURI
     # Parse next result page link from the currently marked one
-    nextPagePath = @currentPage.at_css("table#nav tr td.cur").next_sibling().at_css("a")['href']
+    nextPagePath = @currentPage.at_css('table#nav tr td.cur').next_sibling().at_css("a")['href']
 
     # Construct the URI
-    @nextURI = "https://www.google.com" + nextPagePath
+    @nextURI = 'https://www.google.com' + nextPagePath
   end
 
   # Update the WebSearch results array by performing a Fetch, Store, Parse routine
@@ -78,23 +78,23 @@ class GoogleWebSearch
     # Iterate over each Google result list element 
     @currentPage.css('li.g:not([id])').each do |result|
       begin
-      # Extract the title
-      title = result.css('h3 a').first.content
+        # Extract the title
+        title = result.css('h3 a').first.content
 
-      # Extract the content. There is the possibility for
-      # the content to be nil, so check for this
-      content = result.css('span.st').first.nil? ? '' : result.css('span.st').first.content
+        # Extract the content. There is the possibility for
+        # the content to be nil, so check for this
+        content = result.css('span.st').first.nil? ? '' : result.css('span.st').first.content
 
-      # Extract the URI
-      uri = result.css('h3 a').first['href']
+        # Extract the URI
+        uri = result.css('h3 a').first['href']
 
-      # Ignore YouTube videos for websearch
-      unless uri.index('www.youtube.com').nil? 
-        next
-      end
+        # Ignore YouTube videos for websearch
+        unless uri.index('www.youtube.com').nil?
+          next
+        end
 
-      # Create a new Result object and append to the array
-      currentResults << Result.new(title, content, uri)
+        # Create a new Result object and append to the array
+        currentResults << Result.new(title, content, uri)
       rescue NoMethodError
         next
       end
